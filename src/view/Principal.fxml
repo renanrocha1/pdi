@@ -1,0 +1,235 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.ScrollPane?>
+<?import javafx.scene.control.Slider?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.control.TitledPane?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Font?>
+
+<AnchorPane xmlns="http://javafx.com/javafx/8.0.141" xmlns:fx="http://javafx.com/fxml/1" fx:controller="view.PrincipalController">
+   <children>
+      <BorderPane layoutX="-132.0" layoutY="-127.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+         <left>
+            <VBox BorderPane.alignment="CENTER">
+               <children>
+                  <ImageView fitHeight="150.0" fitWidth="200.0" pickOnBounds="true" preserveRatio="true">
+                     <image>
+                        <Image url="@../img/amazon-logo.png" />
+                     </image>
+                     <VBox.margin>
+                        <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
+                     </VBox.margin>
+                  </ImageView>
+                  <TitledPane animated="false" expanded="false" text="Tons de cinza">
+                    <content>
+                      <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
+                           <children>
+                              <VBox AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                                 <children>
+                                    <Button mnemonicParsing="false" onAction="#teste" text="Teste" />
+                                    <Button mnemonicParsing="false" onAction="#escalaCinzaMediaArit" text="Tons média aritmetica" />
+                                    <Button mnemonicParsing="false" onAction="#habilitaMediaPonderada" text="Tons média ponderada" />
+                                    <HBox>
+                                       <children>
+                                          <TextField fx:id="txtR" disable="true" prefHeight="25.0" prefWidth="34.0" />
+                                          <TextField fx:id="txtG" disable="true" prefHeight="25.0" prefWidth="34.0" />
+                                          <TextField fx:id="txtB" disable="true" prefHeight="25.0" prefWidth="34.0" />
+                                          <Button fx:id="btOk" disable="true" mnemonicParsing="false" onAction="#escalaCinzaMediaPonderada" text="OK" />
+                                       </children>
+                                    </HBox>
+                                 </children>
+                              </VBox>
+                           </children></AnchorPane>
+                    </content>
+                     <VBox.margin>
+                        <Insets bottom="5.0" left="5.0" right="5.0" top="35.0" />
+                     </VBox.margin>
+                  </TitledPane>
+                  <TitledPane animated="false" expanded="false" text="Negativa bambam, negativa">
+                     <content>
+                        <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
+                           <children>
+                              <VBox layoutY="-34.0" prefHeight="200.0" prefWidth="100.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                                 <children>
+                                    <Button mnemonicParsing="false" onAction="#negativaBIRL" prefHeight="63.0" prefWidth="114.0" text="Ajuda que o&#10; maluco &#10;ta doente" />
+                                 </children>
+                              </VBox>
+                           </children></AnchorPane>
+                     </content>
+                     <VBox.margin>
+                        <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
+                     </VBox.margin>
+                  </TitledPane>
+                  <TitledPane animated="false" expanded="false" text="Limiarização">
+                     <content>
+                        <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
+                           <children>
+                              <VBox AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                                 <children>
+                                    <Label text="Limiar" />
+                                    <Slider fx:id="sliderLimiar" max="255.0" value="128.0" />
+                                    <Button mnemonicParsing="false" onAction="#limiar" text="Limiariaza" />
+                                 </children>
+                              </VBox>
+                           </children></AnchorPane>
+                     </content>
+                     <VBox.margin>
+                        <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
+                     </VBox.margin>
+                  </TitledPane>
+                  <TitledPane animated="false" expanded="false" text="Ruídos">
+                     <content>
+                        <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0" />
+                     </content>
+                     <VBox.margin>
+                        <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
+                     </VBox.margin>
+                  </TitledPane>
+                  <TitledPane animated="false" text="Desafios">
+                     <content>
+                        <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
+                           <children>
+                              <VBox layoutX="14.0" layoutY="-42.0" prefHeight="200.0" prefWidth="100.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                                 <children>
+                                    <Button mnemonicParsing="false" onAction="#desafio1" text="Desafio 1" />
+                                 </children>
+                              </VBox>
+                           </children>
+                        </AnchorPane>
+                     </content>
+                  </TitledPane>
+               </children>
+            </VBox>
+         </left>
+         <center>
+            <ScrollPane BorderPane.alignment="CENTER">
+              <content>
+                <AnchorPane minHeight="0.0" minWidth="0.0">
+                     <children>
+                        <VBox AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                           <children>
+                              <HBox alignment="CENTER_LEFT">
+                                 <children>
+                                    <Label fx:id="lblR" text="R:" textFill="#f20404">
+                                       <HBox.margin>
+                                          <Insets bottom="5.0" left="125.0" right="35.0" top="5.0" />
+                                       </HBox.margin>
+                                       <font>
+                                          <Font name="System Bold" size="40.0" />
+                                       </font>
+                                    </Label>
+                                    <Label fx:id="lblG" text="G:" textFill="#0bd318">
+                                       <font>
+                                          <Font name="System Bold" size="40.0" />
+                                       </font>
+                                       <HBox.margin>
+                                          <Insets bottom="5.0" left="5.0" right="35.0" top="5.0" />
+                                       </HBox.margin>
+                                    </Label>
+                                    <Label fx:id="lblB" text="B:" textFill="#1605f0">
+                                       <font>
+                                          <Font name="System Bold" size="40.0" />
+                                       </font>
+                                       <HBox.margin>
+                                          <Insets bottom="5.0" left="5.0" right="35.0" top="5.0" />
+                                       </HBox.margin>
+                                    </Label>
+                                    <Button mnemonicParsing="false" prefHeight="36.0" prefWidth="106.0" text="Histograma">
+                                       <HBox.margin>
+                                          <Insets bottom="5.0" left="35.0" right="5.0" top="5.0" />
+                                       </HBox.margin>
+                                    </Button>
+                                 </children>
+                              </HBox>
+                              <HBox>
+                                 <VBox.margin>
+                                    <Insets top="5.0" />
+                                 </VBox.margin>
+                                 <children>
+                                    <VBox alignment="CENTER">
+                                       <children>
+                                          <Button mnemonicParsing="false" onAction="#abreImg1" prefHeight="25.0" prefWidth="108.0" text="Abrir imagem 1">
+                                             <VBox.margin>
+                                                <Insets bottom="10.0" left="5.0" right="5.0" top="5.0" />
+                                             </VBox.margin>
+                                          </Button>
+                                          <ScrollPane prefHeight="400.0" prefWidth="400.0">
+                                            <content>
+                                              <AnchorPane minHeight="0.0" minWidth="0.0">
+                                                   <children>
+                                                      <ImageView fx:id="imgV1" fitHeight="398.0" fitWidth="399.0" onMouseMoved="#rasterImg" pickOnBounds="true" preserveRatio="true" AnchorPane.bottomAnchor="-398.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="-13.0" AnchorPane.topAnchor="0.0" />
+                                                   </children>
+                                                </AnchorPane>
+                                            </content>
+                                          </ScrollPane>
+                                       </children>
+                                       <HBox.margin>
+                                          <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
+                                       </HBox.margin>
+                                    </VBox>
+                                    <VBox alignment="CENTER">
+                                       <children>
+                                          <Button mnemonicParsing="false" onAction="#abreImg2" prefHeight="25.0" prefWidth="108.0" text="Abrir imagem 2">
+                                             <VBox.margin>
+                                                <Insets bottom="10.0" left="5.0" right="5.0" top="5.0" />
+                                             </VBox.margin>
+                                          </Button>
+                                          <ScrollPane prefHeight="400.0" prefWidth="400.0">
+                                             <content>
+                                                <AnchorPane minHeight="0.0" minWidth="0.0">
+                                                   <children>
+                                                      <ImageView fx:id="imgV2" fitHeight="384.0" fitWidth="385.0" onMouseMoved="#rasterImg" pickOnBounds="true" preserveRatio="true" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
+                                                   </children>
+                                                </AnchorPane>
+                                             </content>
+                                          </ScrollPane>
+                                       </children>
+                                       <HBox.margin>
+                                          <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
+                                       </HBox.margin>
+                                    </VBox>
+                                    <VBox alignment="CENTER">
+                                       <children>
+                                          <Button mnemonicParsing="false" onAction="#salvar" prefHeight="25.0" prefWidth="108.0" text="Salvar">
+                                             <VBox.margin>
+                                                <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
+                                             </VBox.margin>
+                                          </Button>
+                                          <ScrollPane prefHeight="400.0" prefWidth="400.0">
+                                             <content>
+                                                <AnchorPane minHeight="0.0" minWidth="0.0">
+                                                   <children>
+                                                      <ImageView fx:id="imgV3" fitHeight="386.0" fitWidth="386.0" onMouseMoved="#rasterImg" pickOnBounds="true" preserveRatio="true" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
+                                                   </children>
+                                                </AnchorPane>
+                                             </content>
+                                             <VBox.margin>
+                                                <Insets />
+                                             </VBox.margin>
+                                          </ScrollPane>
+                                       </children>
+                                       <HBox.margin>
+                                          <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
+                                       </HBox.margin>
+                                    </VBox>
+                                 </children>
+                              </HBox>
+                           </children>
+                        </VBox>
+                     </children>
+                  </AnchorPane>
+              </content>
+            </ScrollPane>
+         </center>
+      </BorderPane>
+   </children>
+</AnchorPane>
