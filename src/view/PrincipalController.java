@@ -8,13 +8,13 @@ import javax.imageio.*;
 import javafx.embed.swing.*;
 import javafx.fxml.*;
 import javafx.scene.control.*;
-import javafx.scene.control.Alert.*;
 import javafx.scene.image.*;
 import javafx.scene.input.*;
 import javafx.scene.paint.*;
 import javafx.stage.*;
 import javafx.stage.FileChooser.*;
 import pdi.*;
+import util.*;
 
 public class PrincipalController {
 	
@@ -173,22 +173,14 @@ public class PrincipalController {
 				BufferedImage img = SwingFXUtils.fromFXImage(imagem3, null);
 				try {
 					ImageIO.write(img, "PNG", f);
-					exibeMsg("Salvar imagem", "Imagem salva com sucesso", null, AlertType.INFORMATION);
+					MsgUtil.exibeMsgInfo("salvar_imagem", "salvar_sucesso", null);
 				} catch (IOException e) {
 					e.printStackTrace();
 				}
 			} else {
-				exibeMsg("Salvar Imagem", "Imagem não salva", "Não há imagem selecionada", AlertType.ERROR);
+				MsgUtil.exibeMsgErro("salvar_imagem", "salvar_erro", "salvar_erro.nada_selecionado");
 			}
 		}
-	}
-	
-	private void exibeMsg(String titulo, String cabecalho, String msg, AlertType tipo) {
-		Alert alertWindow = new Alert(tipo);
-		alertWindow.setTitle(titulo);
-		alertWindow.setContentText(msg);
-		alertWindow.setHeaderText(cabecalho);
-		alertWindow.show();
 	}
 	
 	private Image abreImg(ImageView imgV) {
