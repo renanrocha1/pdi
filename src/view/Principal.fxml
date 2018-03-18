@@ -15,7 +15,7 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane xmlns="http://javafx.com/javafx/8.0.141" xmlns:fx="http://javafx.com/fxml/1" fx:controller="view.PrincipalController">
+<AnchorPane xmlns="http://javafx.com/javafx/8.0.141" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.PrincipalController">
    <children>
       <BorderPane layoutX="-132.0" layoutY="-127.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
          <left>
@@ -31,19 +31,40 @@
                   </ImageView>
                   <TitledPane animated="false" expanded="false" text="Tons de cinza">
                     <content>
-                      <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
+                      <AnchorPane minHeight="0.0" minWidth="0.0">
                            <children>
                               <VBox AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
                                  <children>
-                                    <Button mnemonicParsing="false" onAction="#teste" text="Teste" />
-                                    <Button mnemonicParsing="false" onAction="#escalaCinzaMediaArit" text="Tons média aritmetica" />
-                                    <Button mnemonicParsing="false" onAction="#habilitaMediaPonderada" text="Tons média ponderada" />
+                                    <Button mnemonicParsing="false" onAction="#teste" text="Teste">
+                                       <VBox.margin>
+                                          <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
+                                       </VBox.margin></Button>
+                                    <Button mnemonicParsing="false" onAction="#escalaCinzaMediaArit" text="Tons média aritmetica">
+                                       <VBox.margin>
+                                          <Insets bottom="5.0" left="5.0" right="5.0" />
+                                       </VBox.margin></Button>
+                                    <Button mnemonicParsing="false" onAction="#habilitaMediaPonderada" text="Tons média ponderada">
+                                       <VBox.margin>
+                                          <Insets bottom="5.0" left="5.0" right="5.0" />
+                                       </VBox.margin></Button>
                                     <HBox>
                                        <children>
-                                          <TextField fx:id="txtR" disable="true" prefHeight="25.0" prefWidth="34.0" />
-                                          <TextField fx:id="txtG" disable="true" prefHeight="25.0" prefWidth="34.0" />
-                                          <TextField fx:id="txtB" disable="true" prefHeight="25.0" prefWidth="34.0" />
-                                          <Button fx:id="btOk" disable="true" mnemonicParsing="false" onAction="#escalaCinzaMediaPonderada" text="OK" />
+                                          <TextField fx:id="txtR" disable="true" prefHeight="25.0" prefWidth="34.0" promptText="R">
+                                             <HBox.margin>
+                                                <Insets bottom="2.0" left="2.0" right="2.0" top="2.0" />
+                                             </HBox.margin></TextField>
+                                          <TextField fx:id="txtG" disable="true" prefHeight="25.0" prefWidth="34.0" promptText="G">
+                                             <HBox.margin>
+                                                <Insets bottom="2.0" left="2.0" right="2.0" top="2.0" />
+                                             </HBox.margin></TextField>
+                                          <TextField fx:id="txtB" disable="true" prefHeight="25.0" prefWidth="34.0" promptText="B">
+                                             <HBox.margin>
+                                                <Insets bottom="2.0" left="2.0" right="2.0" top="2.0" />
+                                             </HBox.margin></TextField>
+                                          <Button fx:id="btOk" disable="true" mnemonicParsing="false" onAction="#escalaCinzaMediaPonderada" text="OK">
+                                             <HBox.margin>
+                                                <Insets bottom="2.0" left="2.0" right="2.0" top="2.0" />
+                                             </HBox.margin></Button>
                                        </children>
                                     </HBox>
                                  </children>
@@ -56,11 +77,14 @@
                   </TitledPane>
                   <TitledPane animated="false" expanded="false" text="Negativa bambam, negativa">
                      <content>
-                        <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
+                        <AnchorPane minHeight="0.0" minWidth="0.0">
                            <children>
-                              <VBox layoutY="-34.0" prefHeight="200.0" prefWidth="100.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                              <VBox layoutY="-34.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
                                  <children>
-                                    <Button mnemonicParsing="false" onAction="#negativaBIRL" prefHeight="63.0" prefWidth="114.0" text="Ajuda que o&#10; maluco &#10;ta doente" />
+                                    <Button mnemonicParsing="false" onAction="#negativaBIRL" prefHeight="63.0" prefWidth="114.0" text="Ajuda que o&#10; maluco &#10;ta doente">
+                                       <VBox.margin>
+                                          <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
+                                       </VBox.margin></Button>
                                  </children>
                               </VBox>
                            </children></AnchorPane>
@@ -94,7 +118,7 @@
                         <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
                      </VBox.margin>
                   </TitledPane>
-                  <TitledPane animated="false" text="Desafios">
+                  <TitledPane animated="false" expanded="false" text="Desafios">
                      <content>
                         <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
                            <children>
@@ -106,6 +130,9 @@
                            </children>
                         </AnchorPane>
                      </content>
+                     <VBox.margin>
+                        <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
+                     </VBox.margin>
                   </TitledPane>
                </children>
             </VBox>
