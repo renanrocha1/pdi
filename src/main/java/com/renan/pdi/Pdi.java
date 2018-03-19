@@ -1,4 +1,4 @@
-package pdi;
+package com.renan.pdi;
 
 import javafx.scene.image.*;
 import javafx.scene.paint.*;

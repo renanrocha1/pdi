@@ -1,4 +1,4 @@
-package view;
+package com.renan;
 	
 import javafx.application.Application;
 import javafx.stage.Stage;
