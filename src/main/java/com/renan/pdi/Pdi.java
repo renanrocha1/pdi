@@ -1,9 +1,13 @@
 package com.renan.pdi;
 
+import java.util.*;
+
+import com.renan.domain.*;
+
 import javafx.scene.image.*;
 import javafx.scene.paint.*;
 
-public class Pdi {
+public final class Pdi {
 	
 	public static Image exemploModificarPixel(Image img) {
 		int w = (int)img.getWidth();
@@ -122,6 +126,109 @@ public class Pdi {
 			}
 		}
 		return wi;
+	}
+	
+	public static Image deNoise(Image img, int tipoVizinhanca, int tipoCalculo) {
+		int w = (int) img.getWidth();
+		int h = (int) img.getHeight();
+		WritableImage wi = new WritableImage(w, h);
+		PixelReader pr = img.getPixelReader();
+		PixelWriter pw = wi.getPixelWriter();
+		for (int i = 0; i < w; i++) {
+			for (int j = 0; j < h; j++) {
+				Pixel p = getPixel(pr, i, j, tipoVizinhanca, w, h);
+				pw.setColor(i, j, Pixel.MEDIA == tipoCalculo ? p.getMedia(tipoVizinhanca, p.getColor().getOpacity()) : p.getMediana(tipoVizinhanca, p.getColor().getOpacity()));
+			}
+		}
+		return wi;
+	}
+	
+	private static Pixel getPixel(PixelReader pr, int i, int j, int tipoVizinhanca, int maxW, int maxH) {
+		Pixel p = new Pixel();
+		p.setColor(pr.getColor(i, j));
+		p.setI(i);
+		p.setJ(j);
+		switch (tipoVizinhanca) {
+		case Pixel.VIZ_3x3:
+			p.setVizCruz(getPixelListCruz(pr, i, j, maxW, maxH));
+			p.setVizX(getPixelListX(pr, i, j, maxW, maxH));
+			p.setViz3(new ArrayList<>(p.getVizCruz()));
+			p.getViz3().addAll(p.getVizX());
+			break;
+		case Pixel.VIZ_CRUZ:
+			p.setVizCruz(getPixelListCruz(pr, i, j, maxW, maxH));
+			break;
+		case Pixel.VIZ_X:
+			p.setVizX(getPixelListX(pr, i, j, maxW, maxH));
+			break;
+		}
+		return p;
+	}
+	
+	private static ArrayList<Pixel> getPixelListCruz(PixelReader pr, int i, int j, int maxW, int maxH) {
+		ArrayList<Pixel> pixels = new ArrayList<>();
+		if (j + 1 < maxH) {
+			Pixel p = new Pixel();
+			p.setColor(pr.getColor(i, j + 1));
+			p.setI(i);
+			p.setJ(j + 1);
+			pixels.add(p);
+		}
+		if (j - 1 >= 0) {
+			Pixel p = new Pixel();
+			p.setColor(pr.getColor(i, j-1));
+			p.setI(i);
+			p.setJ(j - 1);
+			pixels.add(p);
+		}
+		if (i + 1 < maxW) {
+			Pixel p = new Pixel();
+			p.setColor(pr.getColor(i + 1, j));
+			p.setI(i + 1);
+			p.setJ(j);
+			pixels.add(p);
+		}
+		if (i - 1 >= 0) {
+			Pixel p = new Pixel();
+			p.setColor(pr.getColor(i - 1, j));
+			p.setI(i - 1);
+			p.setJ(j);
+			pixels.add(p);
+		}
+		return pixels;
+	}
+	
+	private static ArrayList<Pixel> getPixelListX(PixelReader pr, int i, int j, int maxW, int maxH) {
+		ArrayList<Pixel> pixels = new ArrayList<>();
+		if (j + 1 < maxH && i + 1 < maxW) {
+			Pixel p = new Pixel();
+			p.setColor(pr.getColor(i + 1, j + 1));
+			p.setI(i + 1);
+			p.setJ(j + 1);
+			pixels.add(p);
+		}
+		if (j - 1 >= 0 && i - 1 >= 0) {
+			Pixel p = new Pixel();
+			p.setColor(pr.getColor(i - 1, j - 1));
+			p.setI(i - 1);
+			p.setJ(j - 1);
+			pixels.add(p);
+		}
+		if (i + 1 < maxW && j - 1 >= 0) {
+			Pixel p = new Pixel();
+			p.setColor(pr.getColor(i + 1, j - 1));
+			p.setI(i + 1);
+			p.setJ(j - 1);
+			pixels.add(p);
+		}
+		if (i - 1 >= 0 && j + 1 < maxH) {
+			Pixel p = new Pixel();
+			p.setColor(pr.getColor(i - 1, j + 1));
+			p.setI(i - 1);
+			p.setJ(j + 1);
+			pixels.add(p);
+		}
+		return pixels;
 	}
 	
 }

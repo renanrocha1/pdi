@@ -3,10 +3,12 @@
 <?import javafx.geometry.Insets?>
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.Label?>
+<?import javafx.scene.control.RadioButton?>
 <?import javafx.scene.control.ScrollPane?>
 <?import javafx.scene.control.Slider?>
 <?import javafx.scene.control.TextField?>
 <?import javafx.scene.control.TitledPane?>
+<?import javafx.scene.control.ToggleGroup?>
 <?import javafx.scene.image.Image?>
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.AnchorPane?>
@@ -110,9 +112,24 @@
                         <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
                      </VBox.margin>
                   </TitledPane>
-                  <TitledPane animated="false" expanded="false" text="Ruídos">
+                  <TitledPane animated="false" text="Ruídos">
                      <content>
-                        <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0" />
+                        <AnchorPane minHeight="0.0" minWidth="0.0">
+                           <children>
+                              <VBox AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                                 <children>
+                                    <RadioButton fx:id="rdCruz" mnemonicParsing="false" text="Cruz">
+                                       <toggleGroup>
+                                          <ToggleGroup fx:id="a" />
+                                       </toggleGroup>
+                                    </RadioButton>
+                                    <RadioButton fx:id="rdX" mnemonicParsing="false" text="X" toggleGroup="$a" />
+                                    <RadioButton fx:id="rd3" mnemonicParsing="false" text="3x3" toggleGroup="$a" />
+                                    <Button mnemonicParsing="false" onAction="#deNoiseMedia" text="Média" />
+                                    <Button mnemonicParsing="false" onAction="#deNoiseMediana" text="Mediana" />
+                                 </children>
+                              </VBox>
+                           </children></AnchorPane>
                      </content>
                      <VBox.margin>
                         <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />

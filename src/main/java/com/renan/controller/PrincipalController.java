@@ -5,6 +5,7 @@ import java.io.*;
 
 import javax.imageio.*;
 
+import com.renan.domain.*;
 import com.renan.pdi.*;
 import com.renan.util.*;
 
@@ -85,6 +86,12 @@ public class PrincipalController {
 	Button btOk;
 	@FXML
 	Slider sliderLimiar;
+	@FXML
+	RadioButton rdCruz;
+	@FXML
+	RadioButton rdX;
+	@FXML
+	RadioButton rd3;
 
 	private File selecionaImagem() {
 		FileChooser fileChooser = new FileChooser();
@@ -158,6 +165,31 @@ public class PrincipalController {
 		Image img = Pdi.desafio(imagem1);
 		abreImage(imgV3, img);
 		setImagem3(img);
+	}
+	
+	@FXML
+	public void deNoiseMedia() {
+		Image img = Pdi.deNoise(imagem1, getTipoVizinhanca(), Pixel.MEDIA);
+		abreImage(imgV3, img);
+		setImagem3(img);
+	}
+	
+	@FXML
+	public void deNoiseMediana() {
+		Image img = Pdi.deNoise(imagem1, getTipoVizinhanca(), Pixel.MEDIANA);
+		abreImage(imgV3, img);
+		setImagem3(img);
+	}
+	
+	private int getTipoVizinhanca() {
+		if (rdX.isSelected()) {
+			return Pixel.VIZ_X;
+		} else if (rdCruz.isSelected()) {
+			return Pixel.VIZ_CRUZ;
+		} else if (rd3.isSelected()) {
+			return Pixel.VIZ_3x3;
+		}
+		return 0;
 	}
 
 	@FXML
