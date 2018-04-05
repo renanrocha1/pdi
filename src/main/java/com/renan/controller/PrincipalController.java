@@ -10,7 +10,9 @@ import com.renan.pdi.*;
 import com.renan.util.*;
 
 import javafx.embed.swing.*;
+import javafx.event.*;
 import javafx.fxml.*;
+import javafx.scene.*;
 import javafx.scene.control.*;
 import javafx.scene.image.*;
 import javafx.scene.input.*;
@@ -228,6 +230,40 @@ public class PrincipalController {
 				MsgUtil.exibeMsgErro("salvar_imagem", "salvar_erro", "salvar_erro.nada_selecionado");
 			}
 		}
+	}
+	
+	@FXML
+	public void geraHistograma(ActionEvent event) {
+		try {
+			Stage stage = new Stage();
+			FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("HistogramaModal.fxml"));
+			Parent root =  fxmlLoader.load();
+			stage.setScene(new Scene(root));
+			stage.setTitle(MsgUtil.getMessage("histograma_title"));
+//			stage.initModality(Modality.WINDOW_MODAL); para não deixar usuario fazer ação na tela debaixo
+			stage.initOwner(((Node)event.getSource()).getScene().getWindow());
+			stage.show();
+			
+			HistogramaModalController histogramaController = fxmlLoader.getController();
+			if (imagem1 != null) {
+				Pdi.setGrafico(imagem1, histogramaController.hist1);
+			}
+			if (imagem2 != null) {
+				Pdi.setGrafico(imagem2, histogramaController.hist2);
+			}
+			if (imagem3 != null) {
+				Pdi.setGrafico(imagem3, histogramaController.hist3);
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+	}
+	
+	@FXML
+	private void geraImagemEqualizada() {
+		Image img = Pdi.geraImagemEqualizada(imagem1);
+		abreImage(imgV3, img);
+		setImagem3(img);
 	}
 
 	private Image abreImg(ImageView imgV) {

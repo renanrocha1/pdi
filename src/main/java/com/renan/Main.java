@@ -1,5 +1,7 @@
 package com.renan;
 	
+import com.renan.util.*;
+
 import javafx.application.Application;
 import javafx.stage.Stage;
 import javafx.scene.Scene;
@@ -16,7 +18,7 @@ public class Main extends Application {
 			scene.getStylesheets().add(getClass().getResource("application.css").toExternalForm());
 			primaryStage.setScene(scene);
 			primaryStage.setMaximized(true);
-			primaryStage.setTitle("PDI");
+			primaryStage.setTitle(MsgUtil.getMessage("app_title"));
 			primaryStage.show();
 		} catch(Exception e) {
 			e.printStackTrace();

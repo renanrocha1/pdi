@@ -42,5 +42,9 @@ public final class MsgUtil {
 		ResourceBundle rb = getResourceBundle();
 		exibeMsg(rb.getString(keyTitulo), rb.getString(keyCabecalho), rb.getString(keyMsg), AlertType.NONE);
 	}
+	
+	public static String getMessage(String key) {
+		return getResourceBundle().getString(key);
+	}
 
 }
