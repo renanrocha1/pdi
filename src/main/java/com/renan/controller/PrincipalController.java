@@ -41,12 +41,15 @@ public class PrincipalController {
 	private static Image imagem1;
 	private static Image imagem2;
 	private static Image imagem3;
+	private static boolean reverse;
+	
+	private static int x1, y1, x2, y2;
 
 	public static Image getImagem1() {
 		return imagem1;
 	}
 
-	public static void setImagem1(Image imagem1) {
+	private static void setImagem1(Image imagem1) {
 		PrincipalController.imagem1 = imagem1;
 	}
 
@@ -54,7 +57,7 @@ public class PrincipalController {
 		return imagem2;
 	}
 
-	public static void setImagem2(Image imagem2) {
+	private static void setImagem2(Image imagem2) {
 		PrincipalController.imagem2 = imagem2;
 	}
 
@@ -62,7 +65,7 @@ public class PrincipalController {
 		return imagem3;
 	}
 
-	public static void setImagem3(Image imagem3) {
+	private static void setImagem3(Image imagem3) {
 		PrincipalController.imagem3 = imagem3;
 	}
 
@@ -94,6 +97,16 @@ public class PrincipalController {
 	RadioButton rdX;
 	@FXML
 	RadioButton rd3;
+	@FXML
+	TextField txtAdd1;
+	@FXML
+	TextField txtAdd2;
+	@FXML
+	ColorPicker cPicker;
+	@FXML
+	TextField txtBorda;
+	@FXML
+	CheckBox ckInterno;
 
 	private File selecionaImagem() {
 		FileChooser fileChooser = new FileChooser();
@@ -160,6 +173,25 @@ public class PrincipalController {
 		if (iv.getImage() != null) {
 			verificaCor(iv.getImage(), (int) evt.getX(), (int) evt.getY());
 		}
+	}
+	
+	@FXML
+	public void clicou(MouseEvent event) {
+		x1 = (int)event.getX();
+		y1 = (int)event.getY();
+	}
+	
+	@FXML
+	public void soltou(MouseEvent event) {
+		x2 = (int)event.getX();
+		y2 = (int)event.getY();
+		int x0 = x1 > x2 ? x2 : x1;
+		int xf = x1 < x2 ? x2 : x1;
+		int y0 = y1 > y2 ? y2 : y1;
+		int yf = y1 < y2 ? y2 : y1;
+		Image img = Pdi.desenha(imagem1, x0, y0, xf, yf);
+		abreImage(imgV3, img);
+		setImagem3(img);
 	}
 
 	@FXML
@@ -240,7 +272,7 @@ public class PrincipalController {
 			Parent root =  fxmlLoader.load();
 			stage.setScene(new Scene(root));
 			stage.setTitle(MsgUtil.getMessage("histograma_title"));
-//			stage.initModality(Modality.WINDOW_MODAL); para não deixar usuario fazer ação na tela debaixo
+//			stage.initModality(Modality.WINDOW_MODAL); para nï¿½o deixar usuario fazer aï¿½ï¿½o na tela debaixo
 			stage.initOwner(((Node)event.getSource()).getScene().getWindow());
 			stage.show();
 			
@@ -260,8 +292,51 @@ public class PrincipalController {
 	}
 	
 	@FXML
-	private void geraImagemEqualizada() {
+	public void geraImagemEqualizada() {
 		Image img = Pdi.geraImagemEqualizada(imagem1);
+		abreImage(imgV3, img);
+		setImagem3(img);
+	}
+	
+	@FXML
+	public void geraImagemSegmentada() {
+		Image img = Pdi.geraImagemSegmentada(imagem1);
+		abreImage(imgV3, img);
+		setImagem3(img);
+	}
+	
+	@FXML
+	public void geraImgAdicionada() {
+		Image img = Pdi.adicao(imagem1, imagem2, Integer.valueOf(txtAdd1.getText()), Integer.valueOf(txtAdd2.getText()));
+		abreImage(imgV3, img);
+		setImagem3(img);
+	}
+	
+	@FXML
+	public void geraImgSubtraida() {
+		Image img = Pdi.subtracao(imagem1, imagem2);
+		abreImage(imgV3, img);
+		setImagem3(img);
+	}
+	
+	@FXML
+	public void geraImgComBorda() {
+		Image img = Pdi.geraImagemComBorda(imagem1, Integer.valueOf(txtBorda.getText()), ckInterno.isSelected(), cPicker.getValue());
+		abreImage(imgV3, img);
+		setImagem3(img);
+	}
+	
+	@FXML
+	public void giraImg() {
+		Image img = Pdi.giraImagem(imagem3 == null ? imagem1 : imagem3, reverse);
+		reverse = !reverse;
+		abreImage(imgV3, img);
+		setImagem3(img);
+	}
+
+	@FXML
+	public void desafio3() {
+		Image img = Pdi.desafio2(imagem1);
 		abreImage(imgV3, img);
 		setImagem3(img);
 	}
@@ -291,5 +366,5 @@ public class PrincipalController {
 			e.printStackTrace();
 		}
 	}
-
+	
 }
