@@ -341,6 +341,19 @@ public class PrincipalController {
 		setImagem3(img);
 	}
 
+	@FXML
+	public void isQuadrado() {
+		boolean isQuadrado = Pdi.contemQuadrado(imagem1);
+		MsgUtil.exibeMsgInfo("title_figura", "tipo_quadrado", isQuadrado ? "msg_e_quadrado" : "msg_nao_quadrado");
+	}
+
+	@FXML
+	public void aumentaImg() {
+		Image img = Pdi.aumentaImagem(imagem1);
+		abreImage(imgV3, img);
+		setImagem3(img);
+	}
+
 	private Image abreImg(ImageView imgV) {
 		File f = selecionaImagem();
 		Image i = null;
@@ -366,5 +379,5 @@ public class PrincipalController {
 			e.printStackTrace();
 		}
 	}
-	
+
 }
