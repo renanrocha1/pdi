@@ -23,6 +23,13 @@ public class Pixel {
 	private ArrayList<Pixel> vizCruz;
 	private ArrayList<Pixel> vizX;
 	
+	public Pixel() {}
+	
+	public Pixel(int x, int y) {
+		this.i = x;
+		this.j = y;
+	}
+	
 	public Color getColor() {
 		return color;
 	}

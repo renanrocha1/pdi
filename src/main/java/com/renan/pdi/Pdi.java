@@ -453,7 +453,7 @@ public final class Pdi {
 		return wi;
 	}
 
-	public static Image desenha(Image img, int x1, int y1, int x2, int y2) {
+	public static Image desenha(Image img, int x1, int y1, int x2, int y2, HashSet<String> cores) {
 		int w = (int) img.getWidth();
 		int h = (int) img.getHeight();
 		WritableImage wi = new WritableImage(w, h);
@@ -461,17 +461,37 @@ public final class Pdi {
 		PixelWriter pw = wi.getPixelWriter();
 		for (int i = 0; i < w; i++) {
 			for (int j = 0; j < h; j++) {
-				/*if (((j == y1 || j == y2) && (i >= x1 && i <= x2)) || ((i == x1 || i == x2) && (j >= y1 && j <= y2))) {
-					pw.setColor(i, j, Color.BLACK);*/
-				if ((j >= y1 && j <= y2) && (i >= x1 && i <= x2)) {
-					Color src = pr.getColor(i, j);
-					pw.setColor(i, j, new Color(1 - src.getRed(), 1 - src.getGreen(), 1 - src.getBlue(), src.getOpacity()));
+				if (((j == y1 || j == y2) && (i >= x1 && i <= x2)) || ((i == x1 || i == x2) && (j >= y1 && j <= y2))) {
+					pw.setColor(i, j, Color.BLACK);
 				} else {
 					pw.setColor(i, j, pr.getColor(i, j));
 				}
+				/*if ((j >= y1 && j <= y2) && (i >= x1 && i <= x2)) {
+					Color src = pr.getColor(i, j);
+					pw.setColor(i, j, new Color(1 - src.getRed(), 1 - src.getGreen(), 1 - src.getBlue(), src.getOpacity()));
+				}*/
 			}
 		}
+		setCoresSelecionadas(x1, y1, x2, y2, pr, cores);
 		return wi;
+	}
+	
+	public static void setCoresSelecionadas(int x1, int y1, int x2, int y2, PixelReader pr, HashSet<String> cores) {
+		Color c;
+		x1++;
+		y1++;
+		for (int i = x1; i < x2; i++) {
+			for (int j = y1; j < y2; j++) {
+				c = pr.getColor(i, j);
+				if (Color.RED.equals(c)) {
+					cores.add("cor_vermelha");
+				} else if (Color.GREEN.equals(c)) {
+					cores.add("cor_verde");
+				} else if (Color.BLUE.equals(c)) {
+					cores.add("cor_azul");
+				}
+			}
+		}
 	}
 
 	public static Image giraImagem(Image img, boolean reverse) {
@@ -523,7 +543,6 @@ public final class Pdi {
 		int w = (int) img.getWidth();
 		int h = (int) img.getHeight();
 		PixelReader pr = img.getPixelReader();
-		int ladoSize;
 		for (int i = 0; i < w; i++) {
 			for (int j = 0; j < h; j++) {
 				if (pr.getColor(i, j).equals(Color.BLACK)) {
@@ -532,6 +551,75 @@ public final class Pdi {
 			}
 		}
 		return false;
+	}
+	
+	public static boolean isCirculo(Image img) {
+		int w = (int) img.getWidth();
+		int h = (int) img.getHeight();
+		PixelReader pr = img.getPixelReader();
+		List<Integer[]> coord = new ArrayList<Integer[]>(w*h/4);
+		Pixel p0 = null, p1 = null;
+		int diametro = 0, maxDiametro = -1;
+		int[] centro = new int[2]; 
+		for (int i = 0; i < w; i++) {
+			for (int j = 0; j < h; j++) {
+				if (pr.getColor(i, j).equals(Color.BLACK)) {
+					coord.add(new Integer[] {i, j});
+					if (p0 == null) {
+						p0 = new Pixel(i, j);
+					} else {
+						diametro = j - p0.getJ();
+						if (diametro > maxDiametro) {
+							maxDiametro = diametro;
+							centro[1] = diametro/2 + p0.getJ();
+						}
+					}
+				}
+			}
+			p0 = null;
+		}
+		maxDiametro = -1;
+		for (int i = 0; i < h; i++) {
+			for (int j = 0; j < w; j++) {
+				if (pr.getColor(j, i).equals(Color.BLACK)) {
+					coord.add(new Integer[] {j, i});
+					if (p1 == null) {
+						p1 = new Pixel(j, i);
+					} else {
+						diametro = j - p1.getI();
+						if (diametro > maxDiametro) {
+							maxDiametro = diametro;
+							centro[0] = diametro/2 + p1.getI();
+						}
+					}
+				}
+			}
+			p1 = null;
+		}
+		return confereCirculo(coord, centro);
+//		int raio = diametro/2;
+	}
+	
+	private static boolean confereCirculo(List<Integer[]> coord, int[] centro) {
+		int a, b, h;
+		int raio = -1;
+		for (Integer[] pos : coord) {
+			a = pos[0] - centro[0];
+			if (a < 0) a = -a;
+			b = pos[1] - centro[1];
+			if (b < 0) b = -b;
+			h = (int)Math.sqrt((a * a) + (b * b));
+			if (a == 0) h = b; else if (b == 0) h = a;
+			if (raio == -1) raio = h; 
+			else {
+				int erro = raio - h;
+				erro = erro < 0 ? -erro : erro;
+				if (erro > 1) {
+					return false;
+				}
+			}
+		}
+		return true;
 	}
 
 	private static boolean isQuadrado(int i, int j, int w, int h, PixelReader pr) {
@@ -606,5 +694,55 @@ public final class Pdi {
 		pw.setColor((i * 2) + 1, j * 2, c);
 		pw.setColor(i * 2, (j * 2) + 1, c);
 		pw.setColor((i * 2) + 1, (j * 2) + 1, c);
+	}
+	
+	public static Image gradeVertical(Image img, int dist, Color c) {
+		int w = (int) img.getWidth();
+		int h = (int) img.getHeight();
+		WritableImage wi = new WritableImage(w, h);
+		PixelReader pr = img.getPixelReader();
+		PixelWriter pw = wi.getPixelWriter();
+		boolean isGradeCol = false;
+		for (int i = 0; i < w; i++) {
+			isGradeCol = i % dist == 0 && i > 0;
+			if (isGradeCol) {
+				writeGradeCol(pw, i, h, c);
+			} else {
+				for (int j = 0; j < h; j++) {
+					pw.setColor(i, j, pr.getColor(i, j));
+				}
+			}
+		}
+		return wi;
+	}
+	
+	private static void writeGradeCol(PixelWriter pw, int i, int h, Color c) {
+		for (int j = 0; j < h; j++) {
+			pw.setColor(i, j, c);
+		}
+	}
+	
+	public static Image inverteMetadeInferior(Image img) {
+		int w = (int) img.getWidth();
+		int h = (int) img.getHeight();
+		int h2 = h / 2;
+		WritableImage wi = new WritableImage(w, h);
+		PixelReader pr = img.getPixelReader();
+		PixelWriter pw = wi.getPixelWriter();
+		for (int i = 0; i < w; i++) {
+			for (int j = 0; j < h2; j++) {
+				pw.setColor(i, j, pr.getColor(i, j));
+			}
+		}
+		int w0 = --w;
+		int h0 = --h;
+		for (int i = w0; w > 0; w--) {
+			h = h < h2 ? h0 : h;
+			for (int j = h0; h >= h2; h--) {
+				Color c = pr.getColor(w, h);
+				pw.setColor(i - w, (j - h) + h2, c);
+			}
+		}
+		return wi;
 	}
 }

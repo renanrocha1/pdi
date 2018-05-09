@@ -27,9 +27,18 @@ public final class MsgUtil {
 		exibeMsg(rb.getString(keyTitulo), rb.getString(keyCabecalho), rb.getString(keyMsg), AlertType.ERROR);
 	}
 	
-	public static void exibeMsgInfo(String keyTitulo, String keyCabecalho, String keyMsg) {
+	public static void exibeMsgInfo(String keyTitulo, String keyCabecalho, String... keyMsg) {
 		ResourceBundle rb = getResourceBundle();
-		exibeMsg(rb.getString(keyTitulo), rb.getString(keyCabecalho), rb.getString(keyMsg), AlertType.INFORMATION);
+		exibeMsg(rb.getString(keyTitulo), rb.getString(keyCabecalho), getContentText(keyMsg), AlertType.INFORMATION);
+	}
+	
+	private static String getContentText(String... keys) {
+		ResourceBundle rb = getResourceBundle();
+		StringBuilder sb = new StringBuilder();
+		for (int i = 0; i < keys.length; i++) {
+			sb.append(rb.getString(keys[i])).append(" ");
+		}
+		return sb.toString();
 	}
 	
 	private static void exibeMsgConfirm(String keyTitulo, String keyCabecalho, String keyMsg) {

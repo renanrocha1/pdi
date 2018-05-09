@@ -2,6 +2,7 @@ package com.renan.controller;
 
 import java.awt.image.*;
 import java.io.*;
+import java.util.*;
 
 import javax.imageio.*;
 
@@ -107,6 +108,10 @@ public class PrincipalController {
 	TextField txtBorda;
 	@FXML
 	CheckBox ckInterno;
+	@FXML
+	TextField txtDist;
+	@FXML
+	ColorPicker colP;
 
 	private File selecionaImagem() {
 		FileChooser fileChooser = new FileChooser();
@@ -189,9 +194,11 @@ public class PrincipalController {
 		int xf = x1 < x2 ? x2 : x1;
 		int y0 = y1 > y2 ? y2 : y1;
 		int yf = y1 < y2 ? y2 : y1;
-		Image img = Pdi.desenha(imagem1, x0, y0, xf, yf);
+		HashSet<String> cores = new HashSet<>(3);
+		Image img = Pdi.desenha(imagem1, x0, y0, xf, yf, cores);
 		abreImage(imgV3, img);
 		setImagem3(img);
+		MsgUtil.exibeMsgInfo("title_q3", "cores_selecionadas", cores.toArray(new String[cores.size()]));
 	}
 
 	@FXML
@@ -254,7 +261,7 @@ public class PrincipalController {
 				BufferedImage img = SwingFXUtils.fromFXImage(imagem3, null);
 				try {
 					ImageIO.write(img, "PNG", f);
-					MsgUtil.exibeMsgInfo("salvar_imagem", "salvar_sucesso", null);
+					MsgUtil.exibeMsgInfo("salvar_imagem", "salvar_sucesso", "");
 				} catch (IOException e) {
 					e.printStackTrace();
 				}
@@ -346,12 +353,47 @@ public class PrincipalController {
 		boolean isQuadrado = Pdi.contemQuadrado(imagem1);
 		MsgUtil.exibeMsgInfo("title_figura", "tipo_quadrado", isQuadrado ? "msg_e_quadrado" : "msg_nao_quadrado");
 	}
+	
+	@FXML
+	public void isCirculo() {
+		boolean isCirculo = Pdi.isCirculo(imagem1);
+		MsgUtil.exibeMsgInfo("title_figura", "tipo_circulo", isCirculo ? "msg_e_circulo" : "msg_nao_circulo");
+	}
 
 	@FXML
 	public void aumentaImg() {
 		Image img = Pdi.aumentaImagem(imagem1);
 		abreImage(imgV3, img);
 		setImagem3(img);
+	}
+	
+	@FXML
+	public void provaQuestao1() {
+		int dist = 0;
+		try {
+			dist = Integer.valueOf(txtDist.getText());
+		} catch (Exception e) {
+			MsgUtil.exibeMsgErro("title_erro", "sub_questao1", "dist_nao_selecionada");
+			return;
+		}
+		if (imagem1 == null) {
+			MsgUtil.exibeMsgErro("title_erro", "sub_questao1", "img_nao_selecionada");
+		} else {
+			Image img = Pdi.gradeVertical(imagem1, dist, colP.getValue());
+			abreImage(imgV3, img);
+			setImagem3(img);
+		}
+	}
+	
+	@FXML
+	public void provaQuestao2() {
+		if (imagem1 == null) {
+			MsgUtil.exibeMsgErro("title_erro", "sub_questao1", "img_nao_selecionada");
+		} else {
+			Image img = Pdi.inverteMetadeInferior(imagem1);
+			abreImage(imgV3, img);
+			setImagem3(imagem3);
+		}
 	}
 
 	private Image abreImg(ImageView imgV) {

@@ -7,6 +7,7 @@
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.RadioButton?>
 <?import javafx.scene.control.ScrollPane?>
+<?import javafx.scene.control.Separator?>
 <?import javafx.scene.control.Slider?>
 <?import javafx.scene.control.TextField?>
 <?import javafx.scene.control.TitledPane?>
@@ -76,16 +77,16 @@
                            </children></AnchorPane>
                     </content>
                      <VBox.margin>
-                        <Insets bottom="5.0" left="5.0" right="5.0" top="35.0" />
+                        <Insets bottom="5.0" left="5.0" right="5.0" top="10.0" />
                      </VBox.margin>
                   </TitledPane>
-                  <TitledPane animated="false" expanded="false" text="Negativa bambam, negativa">
+                  <TitledPane animated="false" expanded="false" text="Negativa">
                      <content>
                         <AnchorPane minHeight="0.0" minWidth="0.0">
                            <children>
                               <VBox layoutY="-34.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
                                  <children>
-                                    <Button mnemonicParsing="false" onAction="#negativaBIRL" prefHeight="63.0" prefWidth="114.0" text="Ajuda que o&#10; maluco &#10;ta doente">
+                                    <Button mnemonicParsing="false" onAction="#negativaBIRL" prefHeight="25.0" prefWidth="75.0" text="Negativa">
                                        <VBox.margin>
                                           <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
                                        </VBox.margin></Button>
@@ -145,51 +146,56 @@
                                  <children>
                                     <Button mnemonicParsing="false" onAction="#desafio1" text="Desafio 1">
                                        <VBox.margin>
-                                          <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
+                                          <Insets bottom="1.5" left="1.5" right="1.5" top="1.5" />
                                        </VBox.margin></Button>
                                     <ColorPicker fx:id="cPicker">
                                        <VBox.margin>
-                                          <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
+                                          <Insets bottom="1.5" left="1.5" right="1.5" top="1.5" />
                                        </VBox.margin>
                                     </ColorPicker>
                                     <Label text="Borda">
                                        <VBox.margin>
-                                          <Insets left="5.0" />
+                                          <Insets left="1.5" />
                                        </VBox.margin>
                                     </Label>
                                     <TextField fx:id="txtBorda">
                                        <VBox.margin>
-                                          <Insets bottom="5.0" left="5.0" right="5.0" />
+                                          <Insets bottom="1.5" left="1.5" right="1.5" />
                                        </VBox.margin>
                                     </TextField>
                                     <CheckBox fx:id="ckInterno" mnemonicParsing="false" text="Interna">
                                        <VBox.margin>
-                                          <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
+                                          <Insets bottom="1.5" left="1.5" right="1.5" top="1.5" />
                                        </VBox.margin>
                                     </CheckBox>
                                     <Button mnemonicParsing="false" onAction="#geraImgComBorda" text="Desafio 2">
                                        <VBox.margin>
-                                          <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
+                                          <Insets bottom="1.5" left="1.5" right="1.5" top="1.5" />
                                        </VBox.margin>
                                     </Button>
                                     <Button mnemonicParsing="false" onAction="#desafio3" text="Desafio 3">
                                        <VBox.margin>
-                                          <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
+                                          <Insets bottom="1.5" left="1.5" right="1.5" top="1.5" />
                                        </VBox.margin>
                                     </Button>
                                     <Button mnemonicParsing="false" onAction="#giraImg" text="Girar">
                                        <VBox.margin>
-                                          <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
+                                          <Insets bottom="1.5" left="1.5" right="1.5" top="1.5" />
                                        </VBox.margin>
                                     </Button>
                                     <Button mnemonicParsing="false" onAction="#isQuadrado" text="Quadrado">
                                        <VBox.margin>
-                                          <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
+                                          <Insets bottom="1.5" left="1.5" right="1.5" top="1.5" />
                                        </VBox.margin>
                                     </Button>
                                     <Button mnemonicParsing="false" onAction="#aumentaImg" text="Aumenta">
                                        <VBox.margin>
-                                          <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
+                                          <Insets bottom="1.5" left="1.5" right="1.5" top="1.5" />
+                                       </VBox.margin>
+                                    </Button>
+                                    <Button mnemonicParsing="false" onAction="#isCirculo" text="Circulo">
+                                       <VBox.margin>
+                                          <Insets bottom="1.5" left="1.5" right="1.5" top="1.5" />
                                        </VBox.margin>
                                     </Button>
                                  </children>
@@ -265,6 +271,56 @@
                                           <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
                                        </VBox.margin>
                                     </Button>
+                                 </children>
+                              </VBox>
+                           </children>
+                        </AnchorPane>
+                    </content>
+                     <VBox.margin>
+                        <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
+                     </VBox.margin>
+                  </TitledPane>
+                  <TitledPane animated="false" expanded="false" text="Prova 1">
+                    <content>
+                      <AnchorPane minHeight="0.0" minWidth="0.0">
+                           <children>
+                              <VBox layoutX="31.0" layoutY="-90.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                                 <children>
+                                    <TextField fx:id="txtDist" promptText="Distância">
+                                       <VBox.margin>
+                                          <Insets bottom="2.5" left="2.5" right="2.5" top="2.5" />
+                                       </VBox.margin>
+                                    </TextField>
+                                    <ColorPicker fx:id="colP">
+                                       <VBox.margin>
+                                          <Insets bottom="2.5" left="2.5" right="2.5" top="2.5" />
+                                       </VBox.margin>
+                                    </ColorPicker>
+                                    <Button mnemonicParsing="false" onAction="#provaQuestao1" text="Questão 1">
+                                       <VBox.margin>
+                                          <Insets bottom="2.5" left="2.5" right="2.5" top="2.5" />
+                                       </VBox.margin>
+                                    </Button>
+                                    <Separator prefWidth="200.0">
+                                       <VBox.margin>
+                                          <Insets bottom="2.5" left="2.5" right="2.5" top="2.5" />
+                                       </VBox.margin>
+                                    </Separator>
+                                    <Button mnemonicParsing="false" onAction="#provaQuestao2" text="Questão 2">
+                                       <VBox.margin>
+                                          <Insets bottom="2.5" left="2.5" right="2.5" top="2.5" />
+                                       </VBox.margin>
+                                    </Button>
+                                    <Separator prefWidth="200.0">
+                                       <VBox.margin>
+                                          <Insets bottom="2.5" left="2.5" right="2.5" top="2.5" />
+                                       </VBox.margin>
+                                    </Separator>
+                                    <Label prefHeight="83.0" prefWidth="212.0" text="QUESTÃO 3 OBS:&#10;USAR VERMELHO R 255, G 0, B 0&#10;VERDE R 0, G 128, B 0&#10;AZUL R 0, G 0, B 255&#10;MOTIVO: VALOR CONSTANTE JAVAFX">
+                                       <VBox.margin>
+                                          <Insets bottom="2.5" left="2.5" right="2.5" top="2.5" />
+                                       </VBox.margin>
+                                    </Label>
                                  </children>
                               </VBox>
                            </children>
