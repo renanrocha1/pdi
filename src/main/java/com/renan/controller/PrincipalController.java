@@ -6,6 +6,11 @@ import java.util.*;
 
 import javax.imageio.*;
 
+import org.opencv.core.*;
+import org.opencv.imgcodecs.*;
+import org.opencv.imgproc.*;
+import org.opencv.objdetect.*;
+
 import com.renan.domain.*;
 import com.renan.pdi.*;
 import com.renan.util.*;
@@ -45,6 +50,8 @@ public class PrincipalController {
 	private static boolean reverse;
 	
 	private static int x1, y1, x2, y2;
+	
+	private File f;
 
 	public static Image getImagem1() {
 		return imagem1;
@@ -395,9 +402,64 @@ public class PrincipalController {
 			setImagem3(imagem3);
 		}
 	}
+	
+	@FXML
+	public void identificaRostos() {
+		System.loadLibrary(Core.NATIVE_LIBRARY_NAME);
+		CascadeClassifier faceDetector = new CascadeClassifier("haarcascade_frontalface_alt.xml");
+		Mat image = Imgcodecs.imread(f.getAbsolutePath());
+		MatOfRect faceDetections = new MatOfRect();
+		faceDetector.detectMultiScale(image, faceDetections);
+		System.out.println("Detected " + faceDetections.toArray().length + " faces");
+		for (Rect rect : faceDetections.toArray()) {
+			Imgproc.rectangle(image, new Point(rect.x, rect.y), new Point(rect.x + rect.width, rect.y + rect.height), new Scalar(0, 255, 0), 3);
+		}
+		MatOfByte mtb =  new MatOfByte();
+		Imgcodecs.imencode(".png", image, mtb);
+		imagem3 = new Image(new ByteArrayInputStream(mtb.toArray()));
+		abreImage(imgV3, imagem3);
+	}
+	
+	@FXML
+	public void dilata() {
+		System.loadLibrary(Core.NATIVE_LIBRARY_NAME);
+		Mat image = Imgcodecs.imread(f.getAbsolutePath());
+		Mat output = new Mat(image.rows(), image.cols(), image.type());
+		Imgproc.dilate(image, output, new Mat(), new Point(-1, -1), 2);
+		MatOfByte mtb = new MatOfByte();
+		Imgcodecs.imencode(".png", output, mtb);
+		imagem3 = new Image(new ByteArrayInputStream(mtb.toArray()));
+		abreImage(imgV3, imagem3);
+	}
+	
+	@FXML
+	public void erosao() {
+		System.loadLibrary(Core.NATIVE_LIBRARY_NAME);
+		Mat image = Imgcodecs.imread(f.getAbsolutePath());
+		Mat output = new Mat(image.rows(), image.cols(), image.type());
+		Imgproc.erode(image, output, new Mat(), new Point(-1, -1), 2);
+		MatOfByte mtb = new MatOfByte();
+		Imgcodecs.imencode(".png", output, mtb);
+		imagem3 = new Image(new ByteArrayInputStream(mtb.toArray()));
+		abreImage(imgV3, imagem3);
+	}
+	
+	@FXML
+	public void cannyBorda() {
+		Image img = Pdi.cannyBorda(f.getAbsolutePath());
+		abreImage(imgV3, img);
+		setImagem3(img);
+	}
+	
+	@FXML
+	public void laplaceBorda() {
+		Image img = Pdi.laplaceBorda(f.getAbsolutePath());
+		abreImage(imgV3, img);
+		setImagem3(img);
+	}
 
 	private Image abreImg(ImageView imgV) {
-		File f = selecionaImagem();
+		f = selecionaImagem();
 		Image i = null;
 		if (f != null) {
 			abreImage(imgV, i = new Image(f.toURI().toString()));

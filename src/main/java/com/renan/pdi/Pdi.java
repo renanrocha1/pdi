@@ -1,13 +1,26 @@
 package com.renan.pdi;
 
+import java.awt.*;
+import java.awt.image.*;
+import java.io.*;
 import java.util.*;
+import java.util.List;
+
+import javax.imageio.*;
+
+import org.opencv.core.*;
+import org.opencv.core.Point;
+import org.opencv.imgcodecs.*;
+import org.opencv.imgproc.*;
 
 import com.renan.domain.*;
 import com.renan.util.*;
 
 import javafx.scene.chart.*;
 import javafx.scene.image.*;
+import javafx.scene.image.Image;
 import javafx.scene.paint.*;
+import javafx.scene.paint.Color;
 
 public final class Pdi {
 
@@ -744,5 +757,72 @@ public final class Pdi {
 			}
 		}
 		return wi;
+	}
+	
+	public static Image cannyBorda(String imgPath) {
+		System.loadLibrary(Core.NATIVE_LIBRARY_NAME);
+		Mat image = Imgcodecs.imread(imgPath);
+		Mat grayImage = new Mat();
+		Imgproc.cvtColor(image, grayImage, Imgproc.COLOR_BGR2GRAY);
+		Mat imgBlur = new Mat();
+		Imgproc.blur(grayImage, imgBlur, new Size(3, 3));
+		Imgproc.Canny(imgBlur, imgBlur, 15, 45, 3, false);
+		Mat dest = new Mat();
+		Core.add(dest, Scalar.all(0), dest);
+		image.copyTo(dest, imgBlur);
+		MatOfByte mtb = new MatOfByte();
+		Imgcodecs.imencode(".png", dest, mtb);
+		return new Image(new ByteArrayInputStream(mtb.toArray()));
+	}
+	
+	public static Image laplaceBorda(String imgPath) {
+		System.loadLibrary(Core.NATIVE_LIBRARY_NAME);
+		Mat image = Imgcodecs.imread(imgPath);
+		Imgproc.cvtColor(image, image, Imgproc.COLOR_BGR2GRAY);
+		Mat dest = new Mat(image.rows(), image.cols(), image.type());
+		Imgproc.Laplacian(image, dest, 6); 
+//		Mat kernel = new Mat(3, 3, CvType.CV_32F) {{
+//				put(0, 0, 0);
+//				put(0, 1, -1);
+//				put(0,2,0);
+//	
+//				put(1,0,-1);
+//				put(1,1,4);
+//				put(1,2,-1);
+//	
+//				put(2,0,0);
+//				put(2,1,-1);
+//				put(2,2,0);
+//			}
+//		};
+//		Mat dest = new Mat(image.rows(), image.cols(), image.type());
+//		Imgproc.filter2D(image, dest, -1, kernel);
+		MatOfByte mtb = new MatOfByte();
+		Imgcodecs.imencode(".png", dest, mtb);
+		return new Image(new ByteArrayInputStream(mtb.toArray()));
+	}
+	
+	public Image transformadaDeHough(String imgPath) throws IOException {
+		System.loadLibrary(Core.NATIVE_LIBRARY_NAME);
+		Mat image = Imgcodecs.imread(imgPath);
+		Imgproc.cvtColor(image, image, Imgproc.COLOR_BGR2GRAY);
+		Imgproc.Canny(image, image, 50, 200, 3, false);
+		Mat circles = new Mat();
+		Imgproc.HoughCircles(image, circles, Imgproc.CV_HOUGH_GRADIENT, 1, image.rows()/8, 200, 100, 0, 0);
+		double[] data = circles.get(0, 0);
+		double x = data[0], y = data[1], r = data[2];
+		Point center = new Point(x, y);
+		// TODO recorte circular
+		MatOfByte mtb = new MatOfByte();
+		Imgcodecs.imencode(".png", image, mtb);
+		BufferedImage img = ImageIO.read(new ByteArrayInputStream(mtb.toArray()));
+		return null;
+	}
+	
+	private Image recortaCirculo(BufferedImage img, double x, double y, int r) {
+		BufferedImage cropped = new BufferedImage(2*r + 10, 2*r + 10, BufferedImage.TYPE_INT_ARGB);
+		Graphics2D g2 = cropped.createGraphics();
+		g2.translate(cropped.getWidth()/2, cropped.getHeight()/2);
+		
 	}
 }
