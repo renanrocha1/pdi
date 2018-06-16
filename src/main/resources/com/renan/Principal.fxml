@@ -80,7 +80,7 @@
                         <Insets bottom="5.0" left="5.0" right="5.0" top="10.0" />
                      </VBox.margin>
                   </TitledPane>
-                  <TitledPane animated="false" expanded="false" text="Negativa">
+                  <TitledPane animated="false" text="Negativa">
                      <content>
                         <AnchorPane minHeight="0.0" minWidth="0.0">
                            <children>
@@ -90,6 +90,7 @@
                                        <VBox.margin>
                                           <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
                                        </VBox.margin></Button>
+                                    <Button mnemonicParsing="false" onAction="#testeTrabalho3" text="teste" />
                                  </children>
                               </VBox>
                            </children></AnchorPane>
@@ -316,11 +317,6 @@
                                           <Insets bottom="2.5" left="2.5" right="2.5" top="2.5" />
                                        </VBox.margin>
                                     </Separator>
-                                    <Label prefHeight="83.0" prefWidth="212.0" text="QUESTÃO 3 OBS:&#10;USAR VERMELHO R 255, G 0, B 0&#10;VERDE R 0, G 128, B 0&#10;AZUL R 0, G 0, B 255&#10;MOTIVO: VALOR CONSTANTE JAVAFX">
-                                       <VBox.margin>
-                                          <Insets bottom="2.5" left="2.5" right="2.5" top="2.5" />
-                                       </VBox.margin>
-                                    </Label>
                                  </children>
                               </VBox>
                            </children>
@@ -330,7 +326,7 @@
                         <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
                      </VBox.margin>
                   </TitledPane>
-                  <TitledPane animated="false" text="OpenCV">
+                  <TitledPane animated="false" expanded="false" text="OpenCV">
                     <content>
                       <AnchorPane minHeight="0.0" minWidth="0.0">
                            <children>

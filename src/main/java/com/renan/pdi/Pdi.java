@@ -1,6 +1,7 @@
 package com.renan.pdi;
 
 import java.awt.*;
+import java.awt.geom.*;
 import java.awt.image.*;
 import java.io.*;
 import java.util.*;
@@ -16,6 +17,7 @@ import org.opencv.imgproc.*;
 import com.renan.domain.*;
 import com.renan.util.*;
 
+import javafx.embed.swing.*;
 import javafx.scene.chart.*;
 import javafx.scene.image.*;
 import javafx.scene.image.Image;
@@ -802,27 +804,33 @@ public final class Pdi {
 		return new Image(new ByteArrayInputStream(mtb.toArray()));
 	}
 	
-	public Image transformadaDeHough(String imgPath) throws IOException {
+	public static Image transformadaDeHough(String imgPath) throws IOException {
 		System.loadLibrary(Core.NATIVE_LIBRARY_NAME);
 		Mat image = Imgcodecs.imread(imgPath);
 		Imgproc.cvtColor(image, image, Imgproc.COLOR_BGR2GRAY);
 		Imgproc.Canny(image, image, 50, 200, 3, false);
 		Mat circles = new Mat();
-		Imgproc.HoughCircles(image, circles, Imgproc.CV_HOUGH_GRADIENT, 1, image.rows()/8, 200, 100, 0, 0);
-		double[] data = circles.get(0, 0);
-		double x = data[0], y = data[1], r = data[2];
-		Point center = new Point(x, y);
-		// TODO recorte circular
+		Imgproc.HoughCircles(image, circles, Imgproc.CV_HOUGH_GRADIENT, 1d, (double)image.rows()/15, 100d, 30d, 0, 0);
+		double[] data = circles.get(0, 1);
+		Point center = new Point(Math.round(data[0]), Math.round(data[1]));
+		Imgproc.circle(image, center, (int)data[2], new Scalar(255,0,255), 3, 8, 0 );
+		int x = (int)Math.round(data[0]), y = (int)Math.round(data[1]), r = (int)Math.round(data[2]);
 		MatOfByte mtb = new MatOfByte();
 		Imgcodecs.imencode(".png", image, mtb);
 		BufferedImage img = ImageIO.read(new ByteArrayInputStream(mtb.toArray()));
-		return null;
+//		return recortaCirculo(img, x, y, r);
+		// TODO fazendo testes uma ideia seria ir recortando a imagem apos 2 reconhecimentos, um pra tirar o circulo de fora
+		// outro para o mais interno
+		return new Image(new ByteArrayInputStream(mtb.toArray()));
 	}
 	
-	private Image recortaCirculo(BufferedImage img, double x, double y, int r) {
+	private static Image recortaCirculo(BufferedImage img, int x, int y, int r) {
 		BufferedImage cropped = new BufferedImage(2*r + 10, 2*r + 10, BufferedImage.TYPE_INT_ARGB);
 		Graphics2D g2 = cropped.createGraphics();
 		g2.translate(cropped.getWidth()/2, cropped.getHeight()/2);
-		
+		Arc2D arc = new Arc2D.Float((float)-r, (float)-r, 2*r, 2*r, 0, -360, Arc2D.OPEN);
+		g2.setClip(arc);
+		g2.drawImage(img.getSubimage((int)x - r, (int)y - r, (int)x + r, (int)y + r), -r, -r, null);
+		return SwingFXUtils.toFXImage(cropped, null);
 	}
 }

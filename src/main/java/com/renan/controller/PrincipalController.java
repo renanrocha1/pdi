@@ -457,6 +457,13 @@ public class PrincipalController {
 		abreImage(imgV3, img);
 		setImagem3(img);
 	}
+	
+	@FXML
+	public void testeTrabalho3() throws IOException {
+		Image img = Pdi.transformadaDeHough(f.getAbsolutePath());
+		abreImage(imgV3, img);
+		setImagem3(img);
+	}
 
 	private Image abreImg(ImageView imgV) {
 		f = selecionaImagem();
