@@ -207,6 +207,12 @@ public class PrincipalController {
 		setImagem3(img);
 		MsgUtil.exibeMsgInfo("title_q3", "cores_selecionadas", cores.toArray(new String[cores.size()]));
 	}
+	
+	@FXML
+	public void soltouTomVermelho(MouseEvent event) {
+		x1 = (int)event.getX();
+		x2 = (int)event.getY();
+	}
 
 	@FXML
 	public void desafio1() {
@@ -460,7 +466,7 @@ public class PrincipalController {
 	
 	@FXML
 	public void testeTrabalho3() throws IOException {
-		Image img = Pdi.transformadaDeHough(f.getAbsolutePath());
+		Image img = Pdi.transformadaDeHough(imagem1 , f.getAbsolutePath());
 		abreImage(imgV3, img);
 		setImagem3(img);
 	}
