@@ -4,6 +4,7 @@ import java.awt.*;
 import java.awt.geom.*;
 import java.awt.image.*;
 import java.io.*;
+import java.nio.file.*;
 import java.util.*;
 import java.util.List;
 
@@ -25,6 +26,7 @@ import javafx.scene.paint.*;
 import javafx.scene.paint.Color;
 
 public final class Pdi {
+	
 
 	private Pdi() {
 	}
@@ -288,19 +290,19 @@ public final class Pdi {
 		for (int i = 0; i < array.length; i++) {
 			vlrR.getData().add(new XYChart.Data(String.valueOf(i), array[i]));
 		}
-		XYChart.Series vlrG = new XYChart.Series();
-		vlrG.setName("G");
-		array = hist.getG();
-		for (int i = 0; i < array.length; i++) {
-			vlrG.getData().add(new XYChart.Data(String.valueOf(i), array[i]));
-		}
-		XYChart.Series vlrB = new XYChart.Series();
-		vlrB.setName("B");
-		array = hist.getB();
-		for (int i = 0; i < array.length; i++) {
-			vlrB.getData().add(new XYChart.Data(String.valueOf(i), array[i]));
-		}
-		grafico.getData().addAll(vlrR, vlrG, vlrB);
+//		XYChart.Series vlrG = new XYChart.Series();
+//		vlrG.setName("G");
+//		array = hist.getG();
+//		for (int i = 0; i < array.length; i++) {
+//			vlrG.getData().add(new XYChart.Data(String.valueOf(i), array[i]));
+//		}
+//		XYChart.Series vlrB = new XYChart.Series();
+//		vlrB.setName("B");
+//		array = hist.getB();
+//		for (int i = 0; i < array.length; i++) {
+//			vlrB.getData().add(new XYChart.Data(String.valueOf(i), array[i]));
+//		}
+		grafico.getData().addAll(vlrR);
 	}
 
 	public static Image geraImagemEqualizada(Image img) {
@@ -804,33 +806,55 @@ public final class Pdi {
 		return new Image(new ByteArrayInputStream(mtb.toArray()));
 	}
 	
-	public static Image transformadaDeHough(String imgPath) throws IOException {
+	public static Image transformadaDeHough(Image img, String imgPath) throws IOException {
 		System.loadLibrary(Core.NATIVE_LIBRARY_NAME);
 		Mat image = Imgcodecs.imread(imgPath);
 		Imgproc.cvtColor(image, image, Imgproc.COLOR_BGR2GRAY);
-		Imgproc.Canny(image, image, 50, 200, 3, false);
+		Imgproc.equalizeHist(image, image);
+//		Imgproc.Canny(image, image, 50, 200, 3, false);
 		Mat circles = new Mat();
-		Imgproc.HoughCircles(image, circles, Imgproc.CV_HOUGH_GRADIENT, 1d, (double)image.rows()/15, 100d, 30d, 0, 0);
-		double[] data = circles.get(0, 1);
-		Point center = new Point(Math.round(data[0]), Math.round(data[1]));
-		Imgproc.circle(image, center, (int)data[2], new Scalar(255,0,255), 3, 8, 0 );
+		Imgproc.HoughCircles(image, circles, Imgproc.CV_HOUGH_GRADIENT, 1d, (double)image.rows()/16, 100d, 10d, 0, image.cols()/3);
+		double[] data = circles.get(0, 0);
+//		for (int x = 0; x < circles.cols(); x++) {
+//            double[] c = circles.get(0, x);
+//            Point center = new Point(Math.round(c[0]), Math.round(c[1]));
+//            // circle center
+//            Imgproc.circle(image, center, 1, new Scalar(0,100,100), 3, 8, 0 );
+//            // circle outline
+//            int radius = (int) Math.round(c[2]);
+//            Imgproc.circle(image, center, radius, new Scalar(255,0,255), 3, 8, 0 );
+//        }
+//		Point center = new Point(Math.round(data[0]), Math.round(data[1]));
+//		Imgproc.circle(image, center, (int) Math.round(data[2]), new Scalar(255,0,255), 3, 8, 0 );
 		int x = (int)Math.round(data[0]), y = (int)Math.round(data[1]), r = (int)Math.round(data[2]);
+		r = r-2;
 		MatOfByte mtb = new MatOfByte();
 		Imgcodecs.imencode(".png", image, mtb);
-		BufferedImage img = ImageIO.read(new ByteArrayInputStream(mtb.toArray()));
+		BufferedImage bimg2 = ImageIO.read(new ByteArrayInputStream(mtb.toArray()));
+		Object i = recortaCirculo(bimg2, x, y, r, true);
+//		if (primeiroCorte) {
+//			Path p = Paths.get(imgPath);
+//			Path p2 = Paths.get(p.getParent() + File.separator + p.getFileName() + "2");
+//			File f = p2.toFile();
+//			ImageIO.write((BufferedImage) i, "png", f);
+//			return transformadaDeHough(f.getAbsolutePath());
+//		}
+		return (Image) i;
 //		return recortaCirculo(img, x, y, r);
 		// TODO fazendo testes uma ideia seria ir recortando a imagem apos 2 reconhecimentos, um pra tirar o circulo de fora
 		// outro para o mais interno
-		return new Image(new ByteArrayInputStream(mtb.toArray()));
+//		return new Image(new ByteArrayInputStream(mtb.toArray()));
 	}
 	
-	private static Image recortaCirculo(BufferedImage img, int x, int y, int r) {
-		BufferedImage cropped = new BufferedImage(2*r + 10, 2*r + 10, BufferedImage.TYPE_INT_ARGB);
+	private static Object recortaCirculo(BufferedImage img, int x, int y, int r, boolean toFxImage) {
+		BufferedImage cropped = new BufferedImage(2*r + 50, 2*r + 50, BufferedImage.TYPE_INT_ARGB);
 		Graphics2D g2 = cropped.createGraphics();
 		g2.translate(cropped.getWidth()/2, cropped.getHeight()/2);
 		Arc2D arc = new Arc2D.Float((float)-r, (float)-r, 2*r, 2*r, 0, -360, Arc2D.OPEN);
 		g2.setClip(arc);
-		g2.drawImage(img.getSubimage((int)x - r, (int)y - r, (int)x + r, (int)y + r), -r, -r, null);
-		return SwingFXUtils.toFXImage(cropped, null);
+		int x1 = (x - r) + x+r > img.getWidth() ? img.getWidth() - (x - r) : x+r;
+		int y2 = (y - r) + y+r > img.getHeight() ? img.getHeight() - (y - r) : y+r;
+		g2.drawImage(img.getSubimage(x - r > 0 ? x-r : 0, y - r > 0 ? y-r : 0, x1, y2), -r, -r, null);
+		return toFxImage ? SwingFXUtils.toFXImage(cropped, null) : cropped;
 	}
 }
