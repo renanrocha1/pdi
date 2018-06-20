@@ -28,22 +28,6 @@ import javafx.stage.FileChooser.*;
 
 public class PrincipalController {
 
-	// private enum ImageNum {
-	// IMAGEM1,
-	// IMAGEM2,
-	// IMAGEM3;
-	//
-	// private Image image;
-	//
-	// public void setImage(Image i) {
-	// image = i;
-	// }
-	//
-	// public Image getImage() {
-	// return image;
-	// }
-	// }
-
 	private static Image imagem1;
 	private static Image imagem2;
 	private static Image imagem3;
@@ -134,12 +118,6 @@ public class PrincipalController {
 		abreImage(imgV3, img);
 		setImagem3(img);
 	}
-
-	// private void atualizaImg3() {
-	// imgV3.setImage(ImageNum.IMAGEM3.getImage());
-	// imgV3.setFitHeight(ImageNum.IMAGEM3.getImage().getHeight());
-	// imgV3.setFitWidth(ImageNum.IMAGEM3.getImage().getWidth());
-	// }
 
 	@FXML
 	public void escalaCinzaMediaArit() {
@@ -292,7 +270,6 @@ public class PrincipalController {
 			Parent root =  fxmlLoader.load();
 			stage.setScene(new Scene(root));
 			stage.setTitle(MsgUtil.getMessage("histograma_title"));
-//			stage.initModality(Modality.WINDOW_MODAL); para n�o deixar usuario fazer a��o na tela debaixo
 			stage.initOwner(((Node)event.getSource()).getScene().getWindow());
 			stage.show();
 			

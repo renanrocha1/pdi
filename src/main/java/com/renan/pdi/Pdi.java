@@ -46,7 +46,6 @@ public final class Pdi {
 				pw.setColor(i, j, cornao);
 			}
 		}
-//		pw.setColor(10, 10, new Color(1, 1, 1, cor.getOpacity()));
 		return wi;
 	}
 
@@ -290,18 +289,6 @@ public final class Pdi {
 		for (int i = 0; i < array.length; i++) {
 			vlrR.getData().add(new XYChart.Data(String.valueOf(i), array[i]));
 		}
-//		XYChart.Series vlrG = new XYChart.Series();
-//		vlrG.setName("G");
-//		array = hist.getG();
-//		for (int i = 0; i < array.length; i++) {
-//			vlrG.getData().add(new XYChart.Data(String.valueOf(i), array[i]));
-//		}
-//		XYChart.Series vlrB = new XYChart.Series();
-//		vlrB.setName("B");
-//		array = hist.getB();
-//		for (int i = 0; i < array.length; i++) {
-//			vlrB.getData().add(new XYChart.Data(String.valueOf(i), array[i]));
-//		}
 		grafico.getData().addAll(vlrR);
 	}
 
@@ -483,10 +470,6 @@ public final class Pdi {
 				} else {
 					pw.setColor(i, j, pr.getColor(i, j));
 				}
-				/*if ((j >= y1 && j <= y2) && (i >= x1 && i <= x2)) {
-					Color src = pr.getColor(i, j);
-					pw.setColor(i, j, new Color(1 - src.getRed(), 1 - src.getGreen(), 1 - src.getBlue(), src.getOpacity()));
-				}*/
 			}
 		}
 		setCoresSelecionadas(x1, y1, x2, y2, pr, cores);
@@ -785,22 +768,6 @@ public final class Pdi {
 		Imgproc.cvtColor(image, image, Imgproc.COLOR_BGR2GRAY);
 		Mat dest = new Mat(image.rows(), image.cols(), image.type());
 		Imgproc.Laplacian(image, dest, 6); 
-//		Mat kernel = new Mat(3, 3, CvType.CV_32F) {{
-//				put(0, 0, 0);
-//				put(0, 1, -1);
-//				put(0,2,0);
-//	
-//				put(1,0,-1);
-//				put(1,1,4);
-//				put(1,2,-1);
-//	
-//				put(2,0,0);
-//				put(2,1,-1);
-//				put(2,2,0);
-//			}
-//		};
-//		Mat dest = new Mat(image.rows(), image.cols(), image.type());
-//		Imgproc.filter2D(image, dest, -1, kernel);
 		MatOfByte mtb = new MatOfByte();
 		Imgcodecs.imencode(".png", dest, mtb);
 		return new Image(new ByteArrayInputStream(mtb.toArray()));
@@ -811,39 +778,16 @@ public final class Pdi {
 		Mat image = Imgcodecs.imread(imgPath);
 		Imgproc.cvtColor(image, image, Imgproc.COLOR_BGR2GRAY);
 		Imgproc.equalizeHist(image, image);
-//		Imgproc.Canny(image, image, 50, 200, 3, false);
 		Mat circles = new Mat();
 		Imgproc.HoughCircles(image, circles, Imgproc.CV_HOUGH_GRADIENT, 1d, (double)image.rows()/16, 100d, 10d, 0, image.cols()/3);
 		double[] data = circles.get(0, 0);
-//		for (int x = 0; x < circles.cols(); x++) {
-//            double[] c = circles.get(0, x);
-//            Point center = new Point(Math.round(c[0]), Math.round(c[1]));
-//            // circle center
-//            Imgproc.circle(image, center, 1, new Scalar(0,100,100), 3, 8, 0 );
-//            // circle outline
-//            int radius = (int) Math.round(c[2]);
-//            Imgproc.circle(image, center, radius, new Scalar(255,0,255), 3, 8, 0 );
-//        }
-//		Point center = new Point(Math.round(data[0]), Math.round(data[1]));
-//		Imgproc.circle(image, center, (int) Math.round(data[2]), new Scalar(255,0,255), 3, 8, 0 );
 		int x = (int)Math.round(data[0]), y = (int)Math.round(data[1]), r = (int)Math.round(data[2]);
 		r = r-2;
 		MatOfByte mtb = new MatOfByte();
 		Imgcodecs.imencode(".png", image, mtb);
 		BufferedImage bimg2 = ImageIO.read(new ByteArrayInputStream(mtb.toArray()));
 		Object i = recortaCirculo(bimg2, x, y, r, true);
-//		if (primeiroCorte) {
-//			Path p = Paths.get(imgPath);
-//			Path p2 = Paths.get(p.getParent() + File.separator + p.getFileName() + "2");
-//			File f = p2.toFile();
-//			ImageIO.write((BufferedImage) i, "png", f);
-//			return transformadaDeHough(f.getAbsolutePath());
-//		}
 		return (Image) i;
-//		return recortaCirculo(img, x, y, r);
-		// TODO fazendo testes uma ideia seria ir recortando a imagem apos 2 reconhecimentos, um pra tirar o circulo de fora
-		// outro para o mais interno
-//		return new Image(new ByteArrayInputStream(mtb.toArray()));
 	}
 	
 	private static Object recortaCirculo(BufferedImage img, int x, int y, int r, boolean toFxImage) {

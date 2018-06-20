@@ -43,10 +43,11 @@ public final class MsgUtil {
 		return sb.toString();
 	}
 	
-	private static void exibeMsgConfirm(String keyTitulo, String keyCabecalho, String keyMsg) {
-		// TODO pesquisar retorno
+	private static ButtonType exibeMsgConfirm(String keyTitulo, String keyCabecalho, String keyMsg) {
+		// TODO AlertWindow returns ButtonType (ButtonType.OK || ButtonType.CANCEL)
 		Alert alertWindow = new Alert(AlertType.CONFIRMATION);
 		alertWindow.show();
+		return alertWindow.getResult();
 	}
 	
 	public static void exibePlainMsg(String keyTitulo, String keyCabecalho, String keyMsg) {
