@@ -124,7 +124,7 @@ public class PrincipalController {
 		FileChooser fileChooser = new FileChooser();
 		fileChooser.getExtensionFilters()
 				.add(new ExtensionFilter("Imagens", "*.jpg", "*.JPG", "*.png", "*.PNG", "*.bmp", "*.BMP"));
-		fileChooser.setInitialDirectory(new File("C:\\Users\\Renan\\Pictures"));
+		fileChooser.setInitialDirectory(new File(System.getProperty("user.home") + System.getProperty("file.separator")+ "Pictures"));
 		return fileChooser.showOpenDialog(null);
 	}
 
@@ -262,7 +262,7 @@ public class PrincipalController {
 			FileChooser fileChooser = new FileChooser();
 			fileChooser.getExtensionFilters()
 					.add(new ExtensionFilter("Imagens", "*.jpg", "*.JPG", "*.png", "*.PNG", "*.bmp", "*.BMP"));
-			fileChooser.setInitialDirectory(new File("C:\\Users\\Renan\\Pictures"));
+			fileChooser.setInitialDirectory(new File(System.getProperty("user.home") + System.getProperty("file.separator")+ "Pictures"));
 			File f = fileChooser.showSaveDialog(null);
 			if (f != null) {
 				BufferedImage img = SwingFXUtils.fromFXImage(imagem3, null);
